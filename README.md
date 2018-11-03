@@ -51,7 +51,7 @@ yii migrate/up
 Config
 ------------
 
-Add module MailTransportManage Use to your `AppConfig` file.
+Add module MailTransportManage to your `AppConfig` file.
 
 ```php
 ...
