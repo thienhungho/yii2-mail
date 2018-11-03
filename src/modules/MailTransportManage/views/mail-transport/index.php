@@ -73,19 +73,19 @@ $this->registerJs($search);
             <?= \kartik\widgets\Select2::widget([
                 'name'    => 'action',
                 'data'    => [
-                    ACTION_DELETE => __t('app', 'Delete'),
+                    ACTION_DELETE => t('app', 'Delete'),
                 ],
                 'theme'   => \kartik\widgets\Select2::THEME_BOOTSTRAP,
                 'options' => [
                     'multiple'    => false,
-                    'placeholder' => __t('app', 'Bulk Actions ...'),
+                    'placeholder' => t('app', 'Bulk Actions ...'),
                 ],
             ]); ?>
         </div>
         <div class="col-lg-10">
-            <?= Html::submitButton(__t('app', 'Apply'), [
+            <?= Html::submitButton(t('app', 'Apply'), [
                 'class'        => 'btn btn-primary',
-                'data-confirm' => __t('app', 'Are you want to do this?'),
+                'data-confirm' => t('app', 'Are you want to do this?'),
             ]) ?>
         </div>
     </div>

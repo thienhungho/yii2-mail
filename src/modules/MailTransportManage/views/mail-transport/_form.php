@@ -20,7 +20,7 @@ use yii\helpers\Html;
         'addon' => ['prepend' => ['content' => '<span class="fa fa-edit"></span>']],
     ])->textInput([
         'maxlength'   => true,
-        'placeholder' => __t('app', 'Name'),
+        'placeholder' => t('app', 'Name'),
     ]) ?>
 
     <?= $form->field($model, 'host', [
