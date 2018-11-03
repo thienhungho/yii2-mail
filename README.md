@@ -68,11 +68,6 @@ Add module UserManage to your `AppConfig` file.
 ...
 ```
 
-Models
-------------
-
-[ContactForm](https://github.com/thienhungho/yii2-contact-management/tree/master/src/models/ContactForm.php)
-
 Modules
 ------------
 
