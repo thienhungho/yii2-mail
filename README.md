@@ -76,4 +76,9 @@ Modules
 Functions
 ------------
 
-[Core](https://github.com/thienhungho/yii2-user-management/tree/master/src/functions/core.php)
+[Core](https://github.com/thienhungho/yii2-mail/tree/master/src/functions/core.php)
+
+Models
+------------
+
+[Mailer](https://github.com/thienhungho/yii2-mail/tree/master/src/models/Mailer.php), [MailTransport](https://github.com/thienhungho/yii2-mail/tree/master/src/models/MailTransport.php)
