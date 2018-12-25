@@ -47,9 +47,14 @@ $this->registerJs($search);
         'host:url',
         'username:email',
         'port',
-        'encryption'
+        'encryption',
     ];
-    $gridColumn[] = grid_view_default_active_column_cofig();
+    $active_column = grid_view_default_active_column_cofig();
+    $active_column['buttons']['test'] = function($url, $model) {
+        return \yii\helpers\Html::a('<span class="btn btn-xs green"><span class="glyphicon glyphicon-send"></span></span>', url(['/mail-transport-manage/mail-transport/test', 'id' => $model->id]), ['title' => t('app', 'Tesr Mail Transport')]);
+    };
+    $active_column['template'] = '{view} {save-as-new} {update} {test} {delete}';
+    $gridColumn[] = $active_column;
     ?>
     <?= GridView::widget([
         'dataProvider'   => $dataProvider,

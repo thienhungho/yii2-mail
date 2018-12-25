@@ -1,9 +1,6 @@
 <?php
 
 namespace thienhungho\Mail\migrations;
-
-use yii\db\Schema;
-
 class m181103_040101_mail_transport extends \yii\db\Migration
 {
     public function safeUp()

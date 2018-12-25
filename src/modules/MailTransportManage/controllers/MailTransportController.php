@@ -2,12 +2,13 @@
 
 namespace thienhungho\Mail\modules\MailTransportManage\controllers;
 
-use Yii;
+use thienhungho\Mail\models\TestMailTransportForm;
 use thienhungho\Mail\modules\MailTransport\MailTransport;
 use thienhungho\Mail\modules\MailTransportManage\search\MailTransportSearch;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * MailTransportController implements the CRUD actions for MailTransport model.
@@ -18,7 +19,7 @@ class MailTransportController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class'   => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
                 ],
@@ -36,7 +37,7 @@ class MailTransportController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -50,6 +51,7 @@ class MailTransportController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
+
         return $this->render('view', [
             'model' => $model,
         ]);
@@ -62,9 +64,11 @@ class MailTransportController extends Controller
     public function actionCreate()
     {
         $model = new MailTransport();
-
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect([
+                'view',
+                'id' => $model->id,
+            ]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -83,12 +87,14 @@ class MailTransportController extends Controller
     {
         if (Yii::$app->request->post('_asnew') == '1') {
             $model = new MailTransport();
-        }else{
+        } else {
             $model = $this->findModel($id);
         }
-
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect([
+                'view',
+                'id' => $model->id,
+            ]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -102,26 +108,25 @@ class MailTransportController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    public function actionPdf($id) {
+    public function actionPdf($id)
+    {
         $model = $this->findModel($id);
-
         $content = $this->renderAjax('_pdf', [
             'model' => $model,
         ]);
-
         $pdf = new \kartik\mpdf\Pdf([
-            'mode' => \kartik\mpdf\Pdf::MODE_CORE,
-            'format' => \kartik\mpdf\Pdf::FORMAT_A4,
+            'mode'        => \kartik\mpdf\Pdf::MODE_CORE,
+            'format'      => \kartik\mpdf\Pdf::FORMAT_A4,
             'orientation' => \kartik\mpdf\Pdf::ORIENT_PORTRAIT,
             'destination' => \kartik\mpdf\Pdf::DEST_BROWSER,
-            'content' => $content,
-            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
-            'cssInline' => '.kv-heading-1{font-size:18px}',
-            'options' => ['title' => \Yii::$app->name],
-            'methods' => [
+            'content'     => $content,
+            'cssFile'     => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            'cssInline'   => '.kv-heading-1{font-size:18px}',
+            'options'     => ['title' => \Yii::$app->name],
+            'methods'     => [
                 'SetHeader' => [\Yii::$app->name],
                 'SetFooter' => ['{PAGENO}'],
-            ]
+            ],
         ]);
 
         return $pdf->render();
@@ -134,26 +139,51 @@ class MailTransportController extends Controller
      * @throws NotFoundHttpException
      * @throws \yii\db\Exception
      */
-    public function actionSaveAsNew($id) {
+    public function actionSaveAsNew($id)
+    {
         $model = new MailTransport();
-
         if (Yii::$app->request->post('_asnew') != '1') {
             $model = $this->findModel($id);
         }
-    
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect([
+                'view',
+                'id' => $model->id,
+            ]);
         } else {
             return $this->render('saveAsNew', [
                 'model' => $model,
             ]);
         }
     }
-    
+
+    /**
+     * @return string|\yii\web\Response
+     * @throws \yii\db\Exception
+     */
+    public function actionTest($id)
+    {
+        $model = new TestMailTransportForm(['mail_transport_id' => $id]);
+
+        if ($model->load(request()->post())) {
+            if ($model->testMailTransport()) {
+                set_flash_has_been_saved();
+            } else {
+                set_flash_has_not_been_saved();
+            }
+        }
+
+        return $this->render('test', [
+            'model' => $model,
+        ]);
+    }
+
     /**
      * Finds the MailTransport model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $id
+     *
      * @return MailTransport the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
